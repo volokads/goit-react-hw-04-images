@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-// import Loader from 'react-loader-spinner'
+import {BallTriangle} from 'react-loader-spinner'
 import axios from "axios";
 import ImageGalleryItem from "./ImageGalleryItem";
 import Button from './Button'
@@ -50,8 +50,6 @@ function ImageGallery({ searchValue}) {
     }
 
     const onPicClick = (e) => { 
-        console.log(e.target.dataset.source);
-        console.log(modalImage);
         setModalImage(e.target.dataset.source)
     }
     
@@ -60,9 +58,14 @@ function ImageGallery({ searchValue}) {
             <div></div>
         )
     }
-    if (status === 'pending') {
-        return(<div>Wait a little</div>)
-    }
+    if (status === "pending") { 
+            return <BallTriangle
+                        color="#00BFFF"
+                        height={80}
+                        width={80}
+                        timeout={1000} //1 secs
+                    />
+        }
     if (status === 'resolved') {
         return (
             <>
@@ -83,9 +86,8 @@ function ImageGallery({ searchValue}) {
                 </ul>
                 <Button loadMore={nextPage} />
                 {showModal && (
-                    <Modal switcher={toggleModal}>
-                        <img className="modalImage" src={modalImage} alt='' />
-                    </Modal>
+                    <Modal switcher={toggleModal} modalImage={modalImage}/>
+                    
                 )}
             </>
         )

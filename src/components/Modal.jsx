@@ -1,7 +1,7 @@
 import { useEffect } from "react" 
 import { createPortal } from "react-dom"
 
-function Modal({switcher, children}) {
+function Modal({switcher, modalImage}) {
 
     useEffect(() => {
         window.addEventListener("keydown", onEscClick)
@@ -24,7 +24,9 @@ function Modal({switcher, children}) {
 
         return createPortal(
             <div className="Overlay" onClick={handleClose}>
-                <div className="Modal">{children}</div>
+                <div className="Modal">
+                    <img className="modalImage" src={modalImage} alt='' />
+                </div>
             </div>,
             document.getElementById('modalRoot')
         )

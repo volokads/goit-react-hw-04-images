@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import {BallTriangle} from 'react-loader-spinner'
 import ImageGalleryItem from "./ImageGalleryItem";
 import Button from './Button'

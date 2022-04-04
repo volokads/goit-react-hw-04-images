@@ -1,57 +1,19 @@
 import { useState, useEffect } from "react";
 import {BallTriangle} from 'react-loader-spinner'
-import axios from "axios";
 import ImageGalleryItem from "./ImageGalleryItem";
 import Button from './Button'
 import { Modal } from "./Modal"
 
-let tryPage = 1
 
-function ImageGallery({ searchValue}) { 
+function ImageGallery({
+    status,
+    listItems,
+    onPicClick,
+    toggleModal,
+    nextPage,
+    showModal,
+    modalImage }) { 
 
-    const [listItems, setListItem] = useState([])
-    const [status, setStatus] = useState('idle')
-    const [showModal, setShowModal] = useState(false)
-    // const [tryPage, setTryPage] = useState(1)
-    const [modalImage, setModalImage] = useState('')
-
-    useEffect(() => { 
-        if (!searchValue) { 
-            return
-        }
-        setStatus("pending")
-        tryPage = 1
-        setTimeout(() => axios(`https://pixabay.com/api/?q=${searchValue}&page=${tryPage}&key=23569558-943bf7c3d65c4197ad4bffe73&image_type=photo&orientation=horizontal&per_page=12`)
-        .then(list => list.data.hits)
-        .then(hits =>
-            setListItem(hits),
-            setStatus('resolved')
-        )
-        // .then(console.log))
-        , 1000)
-    }, [ searchValue])
-
-    const nextPage = () => {
-        tryPage += 1 
-        axios(`https://pixabay.com/api/?q=${searchValue}&page=${tryPage}&key=23569558-943bf7c3d65c4197ad4bffe73&image_type=photo&orientation=horizontal&per_page=12`)
-            .then(list => list.data.hits)
-            .then(hits => setListItem([...listItems, ...hits]))
-        
-        window.scrollTo({
-        top: document.documentElement.scrollHeight,
-        behavior: 'smooth',
-        });
-    
-    }
-
-
-    const toggleModal = () => { 
-        setShowModal(!showModal)
-    }
-
-    const onPicClick = (e) => { 
-        setModalImage(e.target.dataset.source)
-    }
     
     if (status === 'idle') { 
         return (

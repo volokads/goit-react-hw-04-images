@@ -45,7 +45,7 @@ function ImageGallery({
                         )
                     })}
                 </ul>
-                <Button loadMore={nextPage} />
+                 <Button loadMore={nextPage} />
                 {showModal && (
                     <Modal switcher={toggleModal} modalImage={modalImage}/>
                     

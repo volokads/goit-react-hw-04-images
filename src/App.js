@@ -14,6 +14,7 @@ function App() {
   const [status, setStatus] = useState('idle')
   const [showModal, setShowModal] = useState(false)
   const [modalImage, setModalImage] = useState('')
+  const [total, setTotal] = useState(0)
 
   useEffect(() => { 
     if (!value) { 
@@ -22,20 +23,24 @@ function App() {
     setStatus("pending")
     tryPage = 1
     setTimeout(() => axios(`https://pixabay.com/api/?q=${value}&page=${tryPage}&key=23569558-943bf7c3d65c4197ad4bffe73&image_type=photo&orientation=horizontal&per_page=12`)
-    .then(list => list.data.hits)
-    .then(hits =>
-        setListItem(hits),
-        setStatus('resolved')
-    )
-    // .then(console.log))
-    , 1000)
+      .then(list => {
+        const newLocal = (
+          setTotal(list.data.total),
+          setListItem(list.data.hits),
+          setStatus('resolved'));
+        return newLocal
+      }
+      )
+        , 1000)
   }, [ value])
-
+  
   const nextPage = () => {
     tryPage += 1 
     axios(`https://pixabay.com/api/?q=${value}&page=${tryPage}&key=23569558-943bf7c3d65c4197ad4bffe73&image_type=photo&orientation=horizontal&per_page=12`)
-        .then(list => list.data.hits)
-        .then(hits => setListItem([...listItems, ...hits]))
+    .then(list => list.data.hits)
+    .then(hits =>
+      setListItem([...listItems, ...hits]),
+    )
     
     window.scrollTo({
     top: document.documentElement.scrollHeight,
@@ -68,6 +73,7 @@ function App() {
         modalImage={modalImage}
         showModal={showModal}
         nextPage={nextPage}
+        total={total}
       />
         <ToastContainer autoClose={2000}/>
     </div>

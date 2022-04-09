@@ -11,7 +11,9 @@ function ImageGallery({
     toggleModal,
     nextPage,
     showModal,
-    modalImage }) { 
+    modalImage,
+    total
+}) { 
 
     
     if (status === 'idle') { 
@@ -45,7 +47,7 @@ function ImageGallery({
                         )
                     })}
                 </ul>
-                 <Button loadMore={nextPage} />
+                {total === listItems.length ? <></> : <Button loadMore={nextPage} />  }
                 {showModal && (
                     <Modal switcher={toggleModal} modalImage={modalImage}/>
                     
